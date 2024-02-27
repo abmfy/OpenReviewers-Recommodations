@@ -1,9 +1,22 @@
-import { createApp } from 'vue'
+import { createApp, onMounted, onUpdated } from 'vue'
 import App from './App.vue'
 import router from './router'
 
-const app = createApp(App)
+import YyMathjax from 'mathjax3-vue';
 
-app.use(router)
+import '@/mock/backend';
 
-app.mount('#app')
+const app = createApp(App);
+
+app.use(router);
+
+const MathJaxConfig = {
+  tex: {
+      inlineMath: [['$', '$']],
+      processEscapes: true
+  }
+}
+
+app.use(YyMathjax, MathJaxConfig);
+
+app.mount('#app');

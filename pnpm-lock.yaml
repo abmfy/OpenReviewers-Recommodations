@@ -8,6 +8,9 @@ dependencies:
   axios:
     specifier: ^1.6.7
     version: 1.6.7
+  mathjax3-vue:
+    specifier: ^0.0.18
+    version: 0.0.18
   vue:
     specifier: ^3.4.15
     version: 3.4.20(typescript@5.3.3)
@@ -25,6 +28,9 @@ devDependencies:
   '@types/node':
     specifier: ^20.11.10
     version: 20.11.20
+  '@vicons/ionicons5':
+    specifier: ^0.12.0
+    version: 0.12.0
   '@vitejs/plugin-vue':
     specifier: ^5.0.3
     version: 5.0.4(vite@5.1.4)(vue@3.4.20)
@@ -999,6 +1005,10 @@ packages:
 
   /@ungap/structured-clone@1.2.0:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
+    dev: true
+
+  /@vicons/ionicons5@0.12.0:
+    resolution: {integrity: sha512-Iy1EUVRpX0WWxeu1VIReR1zsZLMc4fqpt223czR+Rpnrwu7pt46nbnC2ycO7ItI/uqDLJxnbcMC7FujKs9IfFA==}
     dev: true
 
   /@vitejs/plugin-vue-jsx@3.1.0(vite@5.1.4)(vue@3.4.20):
@@ -2025,6 +2035,16 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       '@jridgewell/sourcemap-codec': 1.4.15
+
+  /mathjax3-vue@0.0.18:
+    resolution: {integrity: sha512-pTJHZya1RNghILCTzgD72iWmoFRoU7Mw5xG/69VmoB3DRQhtcsS+eUJOYrpnL3T9EOVBx6FYo3zxogVA6+pdgw==}
+    dependencies:
+      mathjax: 3.2.2
+    dev: false
+
+  /mathjax@3.2.2:
+    resolution: {integrity: sha512-Bt+SSVU8eBG27zChVewOicYs7Xsdt40qm4+UpHyX7k0/O9NliPc+x77k1/FEsPsjKPZGJvtRZM1vO+geW0OhGw==}
+    dev: false
 
   /memorystream@0.3.1:
     resolution: {integrity: sha512-S3UwM3yj5mtUSEfP41UZmt/0SCoVYUcU1rkXv+BQ5Ig8ndL4sPoJNBUJERafdPb5jjHJGuMgytgKvKIf58XNBw==}
