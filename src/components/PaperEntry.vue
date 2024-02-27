@@ -13,44 +13,55 @@
         <template #header>
           <b>Review Details</b>
         </template>
-        <n-list>
+        <n-list :show-divider="false">
           <n-list-item v-for="review, id in paper.reviews" :key="id">
-            <n-text type="info">
-              <b>Reviewer {{ id + 1 }}</b>
-            </n-text>
-            <n-space vertical>
-              <n-space>
-                <b>Rating:</b> {{ review.rating }} / 10
-                <b>Soundness:</b> {{ review.soundness }} / 3
-                <b>Presentation:</b> {{ review.presentation }} / 3
-                <b>Contribution:</b> {{ review.contribution }} / 3
+            <n-card embedded>
+              <template #header>
+                <n-text type="info">
+                  <b>Reviewer {{ id + 1 }}</b>
+                </n-text>
+              </template>
+              <n-text type="info">
+                <b></b>
+              </n-text>
+              <n-space vertical>
+                <n-space>
+                  <b>Rating:</b> {{ review.rating }} / 10
+                  <b>Soundness:</b> {{ review.soundness }} / 3
+                  <b>Presentation:</b> {{ review.presentation }} / 3
+                  <b>Contribution:</b> {{ review.contribution }} / 3
+                </n-space>
+                <b>Summary:</b>
+                <n-text v-for="text, id in review.summary.split('\n')" :key="id">
+                  {{ text }}
+                </n-text>
+                <b>Strengths:</b>
+                <n-text type="success" v-for="text, id in review.strengths.split('\n')" :key="id">
+                  {{ text }}
+                </n-text>
+                <b>Weaknesses:</b>
+                <n-text type="error" v-for="text, id in review.weaknesses.split('\n')" :key="id">
+                  {{ text }}
+                </n-text>
               </n-space>
-              <b>Summary:</b>
-              <n-text v-for="text, id in review.summary.split('\n')" :key="id">
-                {{ text }}
-              </n-text>
-              <b>Strengths:</b>
-              <n-text type="success" v-for="text, id in review.strengths.split('\n')" :key="id">
-                {{ text }}
-              </n-text>
-              <b>Weaknesses:</b>
-              <n-text type="error" v-for="text, id in review.strengths.split('\n')" :key="id">
-                {{ text }}
-              </n-text>
-            </n-space>
+            </n-card>
           </n-list-item>
           <n-list-item>
-            <n-text type="info">
-              <b>Area Chair</b>
-            </n-text>
-            <n-space vertical>
-              <n-text>
-                <b>Final Decision:</b> {{ paper.ac.decision }}
-              </n-text>
-              <n-text>
-                {{ paper.ac.comments }}
-              </n-text>
-            </n-space>
+            <n-card embedded>
+              <template #header>
+                <n-text type="info">
+                  <b>Area Chair</b>
+                </n-text>
+              </template>
+              <n-space vertical>
+                <n-text>
+                  <b>Final Decision:</b> {{ paper.ac.decision }}
+                </n-text>
+                <n-text>
+                  {{ paper.ac.comments }}
+                </n-text>
+              </n-space>
+            </n-card>
           </n-list-item>
         </n-list>
       </n-collapse-item>
@@ -74,7 +85,7 @@
 </template>
 
 <script setup lang="ts">
-import { NA, NCollapse, NCollapseItem, NH2, NList, NListItem, NPopover, NRate, NSpace, NText, NThing } from 'naive-ui';
+import { NA, NCard, NCollapse, NCollapseItem, NH2, NList, NListItem, NPopover, NRate, NSpace, NText, NThing } from 'naive-ui';
 
 import type { Paper } from '@/types';
 import { onMounted } from 'vue';

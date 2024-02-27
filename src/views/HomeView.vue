@@ -26,7 +26,7 @@
       </n-popover>
     </n-space>
 
-    <n-tabs size="large" default-value="LG" animated>
+    <n-tabs :key="dateString" v-model:value="tab" size="large" default-value="LG" animated>
       <n-tab-pane v-for="[name, tab] in CATEGORIES" :key="name" :name="name" :tab="tab">
         <paper-view :category="name" :date="dateString"/>
       </n-tab-pane>
@@ -69,5 +69,7 @@ api.get('date').then(response => {
   state.start_date = Number(start);
   state.end_date = Number(end);
 });
+
+const tab = ref('LG');
 
 </script>

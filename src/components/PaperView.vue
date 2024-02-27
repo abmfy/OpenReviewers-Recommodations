@@ -23,10 +23,10 @@ import PaperEntry from '@/components/PaperEntry.vue';
 import api from '@/utils/api';
 import type { Paper } from '@/types';
 
-const props = defineProps({
-  category: String,
-  date: String,
-});
+const props = defineProps<{
+  category: string,
+  date: string,
+}>();
 
 const state: {
   loading: boolean;
@@ -37,8 +37,6 @@ const state: {
 });
 
 api('papers', {data: props}).then(response => {
-  console.log(response.data.start);
-  console.log(response.data.end);
   state.loading = false;
   state.papers = response.data;
 })
