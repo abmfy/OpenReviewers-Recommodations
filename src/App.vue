@@ -10,4 +10,3 @@ document.title = 'OpenReviewers For You';
   </body>
 </template>
 
-<style scoped />

@@ -26,7 +26,7 @@ devDependencies:
     specifier: ^20.1.2
     version: 20.1.2
   '@types/node':
-    specifier: ^20.11.10
+    specifier: ^20.11.20
     version: 20.11.20
   '@vicons/ionicons5':
     specifier: ^0.12.0
