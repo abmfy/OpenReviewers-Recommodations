@@ -36,7 +36,7 @@ const state: {
   papers: [],
 });
 
-api('papers', {data: props}).then(response => {
+api('papers', {params: props}).then(response => {
   state.loading = false;
   state.papers = response.data;
 })

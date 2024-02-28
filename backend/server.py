@@ -4,9 +4,14 @@ import json
 
 from flask import Flask, request, jsonify
 
+from flask_cors import CORS, cross_origin
+
 
 app = Flask(__name__)
-review_path='arxiv/review'
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
+
+review_path='review'
 
 
 def check_and_update():
@@ -35,10 +40,10 @@ def convert_format(filtered_review):
         comments = filtered_review['decision'].strip()
 
     reviews = [{
-        "rating": review["rating"],
-        "soundness": review["rating"],
-        "presentation": review["rating"],
-        "contribution": review["rating"],
+        "rating": int(review["rating"].split(':')[0]),
+        "soundness": int(review["rating"].split(':')[0]),
+        "presentation": int(review["rating"].split(':')[0]),
+        "contribution": int(review["rating"].split(':')[0]),
         "summary": review["SUMMARIES"],
         "strengths": review["STRENGTHS"],
         "weaknesses": review["WEAKNESSES"],
@@ -53,7 +58,7 @@ def convert_format(filtered_review):
         "abstract": filtered_review['info']['Abstract'],
         "reviews": reviews,
         "ac": {
-            "decision": decision,
+            "decision": decision.split(': ')[-1],
             "comments": comments
         }
     }
@@ -63,19 +68,21 @@ def convert_format(filtered_review):
 
 # 返回可用的推荐日期范围
 @app.route('/date', methods=['GET'])
+@cross_origin()
 def get_date_range():
     global reviews
     check_and_update()
     timestamps = []
     for review in reviews.values():
-        timestamps.append(review['info']['Timestamp'])
+        timestamps.append(review['info']['Timestamp'] * 1000)
     start = min(timestamps)
     end = max(timestamps)
     return jsonify({"start": start, "end": end})
 
 
 # 获取指定类别指定日期的推荐论文
-@app.route('/paper', methods=['GET'])
+@app.route('/papers', methods=['GET'])
+@cross_origin()
 def get_paper():
     check_and_update()
     category = request.args.get('category')
@@ -86,7 +93,7 @@ def get_paper():
     filtered_reviews = []
     for review in reviews.values():
         submission_time = timestamp_to_date(review['info']['Timestamp'])
-        # print(submission_time)
+        print(review['info']['Category'].lower(), f'cs.{category}'.lower())
         if f'cs.{category}'.lower() == review['info']['Category'].lower() and submission_time == date_str:
             filtered_reviews.append(review)
 

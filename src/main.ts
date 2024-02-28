@@ -4,7 +4,7 @@ import router from './router'
 
 import YyMathjax from 'mathjax3-vue';
 
-import '@/mock/backend';
+// import '@/mock/backend';
 
 const app = createApp(App);
 
