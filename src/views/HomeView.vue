@@ -47,7 +47,7 @@ const CATEGORIES = [
   ['AI', 'Artificial Intelligence'],
   ['CL', 'Computation and Language'],
   ['CV', 'Computer Vision and Pattern Recognition'],
-  ['ML', 'Machine Learning']
+  ['RO', 'Robotics'],
 ] as const;
 
 const today = new Date().setHours(0, 0, 0, 0);

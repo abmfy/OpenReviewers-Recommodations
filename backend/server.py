@@ -1,5 +1,6 @@
 import datetime
 import os
+import re
 import json
 
 from flask import Flask, request, jsonify
@@ -39,17 +40,22 @@ def convert_format(filtered_review):
         decision = ''
         comments = filtered_review['decision'].strip()
 
-    reviews = [{
-        "rating": int(review["rating"].split(':')[0]),
-        "soundness": int(review["rating"].split(':')[0]),
-        "presentation": int(review["rating"].split(':')[0]),
-        "contribution": int(review["rating"].split(':')[0]),
-        "summary": review["SUMMARIES"],
-        "strengths": review["STRENGTHS"],
-        "weaknesses": review["WEAKNESSES"],
-        "questions": review["QUESTIONS"]
-            
-    } for review in filtered_review['reviews']]
+    reviews = []
+    for review in filtered_review['reviews']:
+        rating = re.search(r'\d+', review['rating']) or ['5']
+        soundness = re.search(r'\d+', review['soundness']) or ['2']
+        presentation = re.search(r'\d+', review['presentation']) or ['2']
+        contribution = re.search(r'\d+', review['contribution']) or ['2']
+        reviews.append({
+            "rating": int(rating[0]),
+            "soundness": int(soundness[0]),
+            "presentation": int(presentation[0]),
+            "contribution": int(contribution[0]),
+            "summary": review["SUMMARIES"],
+            "strengths": review["STRENGTHS"],
+            "weaknesses": review["WEAKNESSES"],
+            "questions": review["QUESTIONS"]
+        })
 
     paper = {
         "url": filtered_review['info']['URL'],
@@ -93,7 +99,7 @@ def get_paper():
     filtered_reviews = []
     for review in reviews.values():
         submission_time = timestamp_to_date(review['info']['Timestamp'])
-        print(review['info']['Category'].lower(), f'cs.{category}'.lower())
+        # print(review['info']['Category'].lower(), f'cs.{category}'.lower())
         if f'{category}'.lower() == review['info']['Category'].lower().split('.')[-1] and submission_time == date_str:
             filtered_reviews.append(review)
 
