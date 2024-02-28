@@ -63,6 +63,7 @@ def convert_format(filtered_review):
         "authors": filtered_review['info']['Authors'],
         "abstract": filtered_review['info']['Abstract'],
         "reviews": reviews,
+        "average_rating": sum([review["rating"] for review in reviews]) / len(reviews),
         "ac": {
             "decision": decision.split(': ')[-1],
             "comments": comments
@@ -106,10 +107,10 @@ def get_paper():
     # 在这里，你可以根据 category 和 date 从数据库或其他数据源获取推荐论文
     # 这里只是一个示例，返回一个空的列表
     papers = [convert_format(filtered_review) for filtered_review in filtered_reviews]
-
-    return jsonify(papers)
+    sorted_papers = sorted(papers, key=lambda paper: paper['average_rating'], reverse=True)
+    return jsonify(sorted_papers)
 
 if __name__ == '__main__':
     global reviews
     reviews = {}
-    app.run(port=10728)
+    app.run(host='0.0.0.0', port=10728)
