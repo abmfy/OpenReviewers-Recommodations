@@ -94,7 +94,7 @@ def get_paper():
     for review in reviews.values():
         submission_time = timestamp_to_date(review['info']['Timestamp'])
         print(review['info']['Category'].lower(), f'cs.{category}'.lower())
-        if f'cs.{category}'.lower() == review['info']['Category'].lower() and submission_time == date_str:
+        if f'{category}'.lower() == review['info']['Category'].lower().split('.')[-1] and submission_time == date_str:
             filtered_reviews.append(review)
 
     # 在这里，你可以根据 category 和 date 从数据库或其他数据源获取推荐论文
