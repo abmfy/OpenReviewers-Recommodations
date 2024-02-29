@@ -21,15 +21,13 @@
                   <b>Reviewer {{ id + 1 }}</b>
                 </n-text>
               </template>
-              <n-text type="info">
-                <b></b>
-              </n-text>
               <n-space vertical>
                 <n-space>
                   <b>Rating:</b> {{ review.rating }} / 10
-                  <b>Soundness:</b> {{ review.soundness }} / 3
-                  <b>Presentation:</b> {{ review.presentation }} / 3
-                  <b>Contribution:</b> {{ review.contribution }} / 3
+                  <b>Soundness:</b> {{ review.soundness }} / 4
+                  <b>Presentation:</b> {{ review.presentation }} / 4
+                  <b>Contribution:</b> {{ review.contribution }} / 4
+                  <b>Confidence:</b> {{ review.confidence }} / 5
                 </n-space>
                 <b>Summary:</b>
                 <n-text v-for="text, id in review.summary.split('\n')" :key="id">
@@ -70,7 +68,7 @@
       <n-space>
         <n-popover>
           <template #trigger>
-            <n-rate readonly allow-half :default-value="avgRate / 2" />
+            <n-rate readonly allow-half :default-value="Math.ceil(avgRate) / 2" />
           </template>
           <n-text type="primary">
             Average Rating: {{ avgRate.toFixed(2) }} / 10

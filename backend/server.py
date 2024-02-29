@@ -46,11 +46,13 @@ def convert_format(filtered_review):
         soundness = re.search(r'\d+', review['soundness']) or ['2']
         presentation = re.search(r'\d+', review['presentation']) or ['2']
         contribution = re.search(r'\d+', review['contribution']) or ['2']
+        confidence = re.search(r'\d+', review['confidence']) or ['3']
         reviews.append({
             "rating": int(rating[0]),
             "soundness": int(soundness[0]),
             "presentation": int(presentation[0]),
             "contribution": int(contribution[0]),
+            "confidence": int(confidence[0]),
             "summary": review["SUMMARIES"],
             "strengths": review["STRENGTHS"],
             "weaknesses": review["WEAKNESSES"],

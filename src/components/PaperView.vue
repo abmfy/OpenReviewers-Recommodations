@@ -1,11 +1,18 @@
 <template>
   <n-space vertical>
     <template v-if="!state.loading">
-      <n-list>
-        <n-list-item v-for="paper in state.papers" :key="paper.url">
-          <paper-entry :paper="paper" />
-        </n-list-item>
-      </n-list>
+      <n-empty v-if="false && !papers.length" size="large" description="Nothing" />
+      <template v-else>
+        <n-text depth="3">
+          {{state.paperCount}} papers today
+        </n-text>
+        <n-list>
+          <n-list-item v-for="paper in papers" :key="paper.url">
+            <paper-entry :paper="paper" />
+          </n-list-item>
+        </n-list>
+        <n-pagination v-model:page="state.page" :page-count="Math.ceil(state.paperCount / 10)" @update:page="jump" />
+      </template>
     </template>
     <template v-else v-for="_ in 10" :key="_">
       <n-skeleton text size="medium" style="width: 30%" />
@@ -16,8 +23,8 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
-import { NList, NListItem, NSkeleton, NSpace } from 'naive-ui';
+import { computed, reactive } from 'vue';
+import { NEmpty, NList, NListItem, NPagination, NSkeleton, NSpace, NText } from 'naive-ui';
 
 import PaperEntry from '@/components/PaperEntry.vue';
 import api from '@/utils/api';
@@ -30,14 +37,28 @@ const props = defineProps<{
 
 const state: {
   loading: boolean;
-  papers: Paper[];
+  papersAll: Paper[];
+  paperCount: number;
+  page: number;
 } = reactive({
   loading: true,
-  papers: [],
+  papersAll: [],
+  paperCount: 0,
+  page: 1,
+});
+
+const papers = computed(() => {
+  const page = state.page - 1;
+  return state.papersAll.slice(page * 10, (page + 1) * 10);
 });
 
 api('papers', {params: props}).then(response => {
   state.loading = false;
-  state.papers = response.data;
+  state.papersAll = response.data;
+  state.paperCount = state.papersAll.length;
 })
+
+const jump = () => {
+  window.scrollTo(0, 0);
+}
 </script>

@@ -9,14 +9,12 @@ Mock.mock(/\/date/, {
   end: 1709012299724,
 });
 
-Mock.mock(/papers/, (req: {body: string}) => {
-  const {category, date}: {
-    category: string,
-    date: string,
-  } = JSON.parse(req.body);
+Mock.mock(/paper-count/, 233);
+
+Mock.mock(/papers/, () => {
   return [{
     url: 'https://arxiv.org/abs/2402.16835',
-    title: `Eight Methods to Evaluate Robust $Unlearning^{Test}$ in LLMs (${category}, ${date})`,
+    title: `Eight Methods to Evaluate Robust $Unlearning^{Test}$ in LLMs`,
     authors: ['Aengus Lynch', 'Phillip Guo', 'Aidan Ewart', 'Stephen Casper', 'Dylan Hadfield-Menell'],
     abstract: '$\\LaTeX \\textbf{Test}$ Machine $\\mathbb{unlearning}$ can be useful for $ 1 + 1 ≠ 3 $ removing harmful capabilities and memorized text from large language models (LLMs), but there are not yet standardized methods for rigorously evaluating it. In this paper, we first survey techniques and limitations of existing unlearning evaluations. Second, we apply a comprehensive set of tests for the robustness and competitiveness of unlearning in the "Who\'s Harry Potter" (WHP) model from Eldan and Russinovich (2023). While WHP\'s unlearning generalizes well when evaluated with the "Familiarity" metric from Eldan and Russinovich, we find i) higher-than-baseline amounts of knowledge can reliably be extracted, ii) WHP performs on par with the original model on Harry Potter Q&A tasks, iii) it represents latent knowledge comparably to the original model, and iv) there is collateral unlearning in related domains. Overall, our results highlight the importance of comprehensive unlearning evaluation that avoids ad-hoc metrics.',
     reviews: [

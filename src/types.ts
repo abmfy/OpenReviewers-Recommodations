@@ -3,6 +3,7 @@ export type Review = {
   soundness: number,
   presentation: number,
   contribution: number,
+  confidence: number,
   summary: string,
   strengths: string,
   weaknesses: string,
