@@ -4,7 +4,7 @@
       <n-empty v-if="false && !papers.length" size="large" description="Nothing" />
       <template v-else>
         <n-text depth="3">
-          {{state.paperCount}} papers today
+          {{state.paperCount}} {{state.paperCount == 1 ? 'paper' : 'papers'}} today
         </n-text>
         <n-list>
           <n-list-item v-for="paper in papers" :key="paper.url">
