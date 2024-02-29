@@ -61,13 +61,16 @@ const state = reactive({
 });
 
 const date_disabled = (date: number) => {
-  return date < state.start_date || date > state.end_date;
+  return date < state.start_date || date >= state.end_date;
 };
 
 api.get('date').then(response => {
   const {start, end} = response.data;
   state.start_date = Number(start);
   state.end_date = Number(end);
+
+  date.value = state.end_date;
+  dateString.value = new Date(date.value).toISOString().split('T')[0]
 });
 
 const tab = ref('LG');
