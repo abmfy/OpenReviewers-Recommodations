@@ -2,6 +2,7 @@ import datetime
 import os
 import re
 import json
+import time
 
 from flask import Flask, request, jsonify
 
@@ -12,17 +13,24 @@ app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-review_path='review'
+review_path = 'review'
 
 
 def check_and_update():
     global reviews
+    global update_time
+    if reviews and time.time() - update_time < 5:
+        return
+    update_time = time.time()
     if len(os.listdir(review_path)) > len(reviews):
         for file in os.listdir(review_path):
             if file not in reviews:
-                with open(os.path.join(review_path, file), 'r') as f:
-                    reviews[file] = json.loads(f.read())
-                    print(f"Update {file}")
+                try:
+                    with open(os.path.join(review_path, file), 'r') as f:
+                        reviews[file] = json.loads(f.read())
+                        print(f"Update {file}")
+                except:
+                    print(f'Read {file} error!')
 
 
 def timestamp_to_date(seconds):
@@ -110,9 +118,15 @@ def get_paper():
     # 这里只是一个示例，返回一个空的列表
     papers = [convert_format(filtered_review) for filtered_review in filtered_reviews]
     sorted_papers = sorted(papers, key=lambda paper: paper['average_rating'], reverse=True)
+    
+    print(f"paper length: {len(sorted_papers)}")
+    
     return jsonify(sorted_papers)
 
 if __name__ == '__main__':
     global reviews
+    global update_time
     reviews = {}
+    update_time = time.time() - 5
+    check_and_update()
     app.run(host='0.0.0.0', port=10728)
