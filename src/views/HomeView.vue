@@ -27,7 +27,7 @@
     </n-space>
 
     <n-tabs :key="dateString" v-model:value="tab" size="large" default-value="LG" animated>
-      <n-tab-pane v-for="[name, tab] in CATEGORIES" :key="name" :name="name" :tab="tab">
+      <n-tab-pane v-for="[name, tab] in CATEGORIES" :key="name" :name="name" :tab="tab + getCount(name)">
         <paper-view :category="name" :date="dateString"/>
       </n-tab-pane>
     </n-tabs>
@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import { reactive, ref, watch } from 'vue';
 import { NButton, NDatePicker, NGradientText, NH1, NIcon, NPopover, NSpace, NTabPane, NTabs, NText } from 'naive-ui';
 import { CalendarOutline } from '@vicons/ionicons5';
 
@@ -55,9 +55,22 @@ const date = ref(today);
 
 const dateString = ref(new Date(date.value).toISOString().split('T')[0]);
 
-const state = reactive({
+const state: {
+  start_date: number;
+  end_date: number;
+  count: Record<'LG' | 'AI' | 'CL' | 'CV' | 'RO', number>;
+
+} = reactive({
   start_date: today,
   end_date: today,
+
+  count: {
+    LG: 0,
+    AI: 0,
+    CL: 0,
+    CV: 0,
+    RO: 0,
+  },
 });
 
 const date_disabled = (date: number) => {
@@ -74,5 +87,26 @@ api.get('date').then(response => {
 });
 
 const tab = ref('LG');
+
+watch(dateString, () => {
+  for (const categoryTuple of CATEGORIES) {
+    const category = categoryTuple[0];
+    api('count', {params: {
+      category,
+      date: dateString.value,
+    }}).then(response => {
+      state.count[category] = response.data;
+    });
+  }
+});
+
+const getCount = (name: 'LG' | 'AI' | 'CL' | 'CV' | 'RO') => {
+  const count = state.count[name];
+  if (count == 0) {
+    return '';
+  }
+  const plural = count != 1;
+  return ` (${count} paper${plural ? 's' : ''})`;
+}
 
 </script>

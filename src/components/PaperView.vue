@@ -1,11 +1,11 @@
 <template>
   <n-space vertical>
     <template v-if="!state.loading">
-      <n-empty v-if="false && !papers.length" size="large" description="Nothing" />
+      <n-empty v-if="!papers.length" size="large" description="Nothing" />
       <template v-else>
-        <n-text depth="3">
+        <!-- <n-text depth="3">
           {{state.paperCount}} {{state.paperCount == 1 ? 'paper' : 'papers'}} today
-        </n-text>
+        </n-text> -->
         <n-list>
           <n-list-item v-for="paper in papers" :key="paper.url">
             <paper-entry :paper="paper" />

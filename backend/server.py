@@ -97,6 +97,25 @@ def get_date_range():
     return jsonify({"start": start, "end": end})
 
 
+# 返回指定类别指定日期的论文数量
+@app.route('/count', methods=['GET'])   
+@cross_origin()
+def get_count():
+    check_and_update()
+    category = request.args.get('category')
+    date_str = request.args.get('date')
+    # date = datetime.datetime.strptime(date_str, '%Y-%m-%d').date()
+    print(category, date_str)
+
+    count = 0
+    for review in reviews.values():
+        submission_time = timestamp_to_date(review['info']['Timestamp'])
+        if f'{category}'.lower() == review['info']['Category'].lower().split('.')[-1] and submission_time == date_str:
+            count += 1
+
+    return jsonify(count)
+
+
 # 获取指定类别指定日期的推荐论文
 @app.route('/papers', methods=['GET'])
 @cross_origin()

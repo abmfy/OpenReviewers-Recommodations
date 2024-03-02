@@ -2,12 +2,13 @@
   <n-thing>
     <n-a :href="paper.url" style="text-decoration: none;">
       <n-h2 align-text prefix="bar">
-        <n-text type="primary">
-          {{ paper.title }}
+        <n-text :type="getTitleType(paper.ac.decision)">
+          {{ getTitlePrefix(paper.ac.decision) + paper.title }}
         </n-text>
       </n-h2>
     </n-a>
-    {{ paper.abstract }}
+      {{ paper.abstract }}
+    <br/>
     <n-collapse style="padding-top: 0;">
       <n-collapse-item name="details">
         <template #header>
@@ -96,6 +97,28 @@ const avgRate = paper.reviews.reduce((acc, review) => acc + review.rating, 0) / 
 onMounted(() => {
   (window as any).MathJax.typesetPromise([document.body]);
 });
+
+// Upper case first letter
+const upperFirst = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+
+// Get type of title
+const getTitleType = (decision: string) => {
+  decision = decision.toLowerCase();
+  if (decision.includes('reject')) {
+    return 'default';
+  } else {
+    return 'success';
+  }
+}
+
+// Get prefix of title
+const getTitlePrefix = (decision: string) => {
+  if (decision.toLowerCase().includes('reject')) {
+    return '';
+  }
+  decision = upperFirst(decision);
+  return `(🎉 ${decision}) `
+}
 </script>
 
 <style>
