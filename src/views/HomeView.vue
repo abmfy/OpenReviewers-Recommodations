@@ -1,30 +1,48 @@
 <template>
   <div style="padding: 24px">
-    <n-space align="baseline">
-      <n-h1 prefix="bar">
-        OpenReviewers
-        <n-gradient-text type="success">
-          For You
-        </n-gradient-text>
-      </n-h1>
-      <n-h1>
-        <n-text depth="3">
-          {{dateString}}
-        </n-text>
-      </n-h1>
-      <n-popover>
-        <template #trigger>
-          <n-button circle type="primary">
+    <div style="float: left">
+      <n-space align="baseline">
+        <n-h1 prefix="bar">
+          OpenReviewers
+          <n-gradient-text type="success">
+            For You
+          </n-gradient-text>
+        </n-h1>
+        <n-h1>
+          <n-text depth="3">
+            {{dateString}}
+          </n-text>
+        </n-h1>
+        <n-popover>
+          <template #trigger>
+            <n-button circle type="primary">
+              <template #icon>
+                <n-icon>
+                  <calendar-outline />
+                </n-icon>
+              </template>
+            </n-button>
+          </template>
+          <n-date-picker panel v-model:value="date" v-model:formatted-value="dateString" :is-date-disabled="date_disabled"/>
+        </n-popover>
+      </n-space>
+    </div>
+    <div style="float: right">
+      <n-space align="baseline">
+        <!-- just for adjusting baseline -->
+        <n-h1 style="visibility: hidden">placeholder</n-h1>
+        <a href="https://github.com/songxxzp/OpenReviewers" target="_blank">
+          <n-button size="large" round>
             <template #icon>
               <n-icon>
-                <calendar-outline />
+                <logo-github />
               </n-icon>
             </template>
+            GitHub Repo
           </n-button>
-        </template>
-        <n-date-picker panel v-model:value="date" v-model:formatted-value="dateString" :is-date-disabled="date_disabled"/>
-      </n-popover>
-    </n-space>
+        </a>
+      </n-space>
+    </div>
 
     <n-tabs :key="dateString" v-model:value="tab" size="large" default-value="LG" animated>
       <n-tab-pane v-for="[name, tab] in CATEGORIES" :key="name" :name="name" :tab="tab + getCount(name)">
@@ -37,7 +55,7 @@
 <script setup lang="ts">
 import { reactive, ref, watch } from 'vue';
 import { NButton, NDatePicker, NGradientText, NH1, NIcon, NPopover, NSpace, NTabPane, NTabs, NText } from 'naive-ui';
-import { CalendarOutline } from '@vicons/ionicons5';
+import { CalendarOutline, LogoGithub } from '@vicons/ionicons5';
 
 import api from '@/utils/api';
 import PaperView from '@/components/PaperView.vue';
