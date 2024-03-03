@@ -91,7 +91,7 @@ def get_date_range():
     check_and_update()
     timestamps = []
     for review in reviews.values():
-        timestamps.append(review['info']['Timestamp'] * 1000)
+        timestamps.append((review['info']['Timestamp'] + 8 * 3600) * 1000)
     start = min(timestamps)
     end = max(timestamps)
     return jsonify({"start": start, "end": end})
